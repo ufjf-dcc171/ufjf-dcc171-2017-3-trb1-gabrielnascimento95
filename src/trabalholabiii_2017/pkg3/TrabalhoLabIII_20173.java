@@ -5,6 +5,8 @@
  */
 package trabalholabiii_2017.pkg3;
 
+import javax.swing.JFrame;
+
 /**
  *
  * @author gabrielsantos
@@ -15,7 +17,11 @@ public class TrabalhoLabIII_20173 {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        JanelaTrabalho janela = new JanelaTrabalho();
+        janela.setSize(900,600);
+        janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        janela.setLocationRelativeTo(null);
+        janela.setVisible(true);
     }
     
 }
