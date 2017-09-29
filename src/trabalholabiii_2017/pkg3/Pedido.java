@@ -12,24 +12,24 @@ import java.util.Date;
  * @author Gabriel_Nascimento
  */
 public class Pedido {
-    private int id;
+    private int mesa;
     private Date dataInicio;
     private Date dataFim;
     private String descrição;
 
     public Pedido(int id, Date dataInicio, Date dataFim, String descrição) {
-        this.id = id;
+        this.mesa = id;
         this.dataInicio = dataInicio;
         this.dataFim = dataFim;
         this.descrição = descrição;
     }
 
-    public int getId() {
-        return id;
+    public int getMesa() {
+        return mesa;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setMesa(int id) {
+        this.mesa = id;
     }
 
     public Date getDataInicio() {

@@ -34,7 +34,7 @@ public class PedidoTableModel extends AbstractTableModel{
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (columnIndex) {
             case 0:
-                pedidos.get(rowIndex).getId();
+                pedidos.get(rowIndex).getMesa();
             case 1:
                 pedidos.get(rowIndex).getDataInicio();
             case 2:
