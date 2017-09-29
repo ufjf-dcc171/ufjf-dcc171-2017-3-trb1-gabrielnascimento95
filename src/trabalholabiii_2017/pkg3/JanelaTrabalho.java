@@ -47,8 +47,8 @@ public class JanelaTrabalho extends JFrame{
         super("Gerenciador de Pedidos");
         Object[][] dados = new Object[][]{
             {cmbBoxIdMesa.getItemAt(0), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(0), cmbBoxDescricaoComida.getItemAt(2) , cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(1), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(1),cmbBoxDescricaoComida.getItemAt(0), cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(2), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(2),cmbBoxDescricaoComida.getItemAt(1), cmbBoxstatus.getItemAt(1)},
+            {cmbBoxIdMesa.getItemAt(1), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(1), cmbBoxDescricaoComida.getItemAt(0), cmbBoxstatus.getItemAt(0)},
+            {cmbBoxIdMesa.getItemAt(2), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(2), cmbBoxDescricaoComida.getItemAt(1), cmbBoxstatus.getItemAt(1)},
         };
         
         Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento", "Bebidas", "Comida", "Status"};
@@ -72,25 +72,37 @@ public class JanelaTrabalho extends JFrame{
         add(new JScrollPane(relacaoPedidos), BorderLayout.CENTER);
         
         relacaoPedidos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        
         relacaoPedidos.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if(relacaoPedidos.getSelectedRowCount()==0){
-                    btnRemoverPedido.setEnabled(false);
-                    btnSalvarPedido.setEnabled(false);
-                    btnAdicionarPedido.setEnabled(false);
-                }else{
-                    btnRemoverPedido.setEnabled(true);
-                    btnSalvarPedido.setEnabled(true);
-                    DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
-                    int linha = relacaoPedidos.getSelectedRow();
-                    cmbBoxIdMesa.setSelectedItem((String)modelo.getValueAt(linha, 0));
-                    cmbBoxDescricaoBebida.setSelectedItem((String)modelo.getValueAt(linha, 3));
-                    cmbBoxDescricaoComida.setSelectedItem((String)modelo.getValueAt(linha, 4));   
-                    cmbBoxstatus.setSelectedItem((String)modelo.getValueAt(linha, 5));   
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if (relacaoPedidos.getSelectedRowCount() == 0) {
+                btnRemoverPedido.setEnabled(false);
+                btnSalvarPedido.setEnabled(false);
+                btnAdicionarPedido.setEnabled(false);
+            } else {
+                btnRemoverPedido.setEnabled(true);
+                btnSalvarPedido.setEnabled(true);
+                DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
+                int linha = relacaoPedidos.getSelectedRow();
+                cmbBoxIdMesa.setSelectedItem((String) modelo.getValueAt(linha, 0));
+                cmbBoxDescricaoBebida.setSelectedItem((String) modelo.getValueAt(linha, 3));
+                cmbBoxDescricaoComida.setSelectedItem((String) modelo.getValueAt(linha, 4));
+                cmbBoxstatus.setSelectedItem((String) modelo.getValueAt(linha, 5));
                 }
-            }
+            }   
         });
+        
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
     }
 
     
