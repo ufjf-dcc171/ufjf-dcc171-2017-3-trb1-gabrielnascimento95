@@ -6,8 +6,11 @@
 package trabalholabiii_2017.pkg3;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.HeadlessException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,7 +30,7 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JanelaTrabalho extends JFrame{
     private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"});
-    private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(new String[]{"Skol", "Bhama", "Proibida", "Bavaria", " Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"});
+    private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(new String[]{"Skol", "Bhama", "Proibida", "Bavaria"});
     private JComboBox<String> cmbBoxDescricaoComida = new JComboBox<>(new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"});
     private JComboBox<String> cmbBoxstatus = new JComboBox<>(new String[]{"Aberto", "Fechado"});
     
@@ -55,7 +58,9 @@ public class JanelaTrabalho extends JFrame{
         relacaoPedidos = new JTable(new DefaultTableModel(dados, titulos));
         btnRemoverPedido.setEnabled(false);
         btnSalvarPedido.setEnabled(false);
-        
+        btnRemoverPedido.setBackground(Color.red);
+        btnAdicionarPedido.setBackground(Color.green);
+        btnSalvarPedido.setBackground(Color.yellow);
         
         JPanel entradaDados = new JPanel();
         entradaDados.setLayout(new GridLayout(2, 6));
@@ -93,10 +98,52 @@ public class JanelaTrabalho extends JFrame{
             }   
         });
         
+        btnAdicionarPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                modelo.addRow(new Object[]{
+                    cmbBoxIdMesa.getSelectedItem(),
+                    dataInicial,
+                    dataFinal,
+                    cmbBoxDescricaoBebida.getSelectedItem(),
+                    cmbBoxDescricaoComida.getSelectedItem(),
+                    cmbBoxstatus.getSelectedItem()
+                });
+                cmbBoxIdMesa.setSelectedItem(0);
+                cmbBoxDescricaoBebida.setSelectedItem(0);
+                cmbBoxDescricaoComida.setSelectedItem(0);
+                cmbBoxstatus.setSelectedItem(0);       
+            }
+        });
         
+        btnRemoverPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(relacaoPedidos.getSelectedRow() == 0){
+                    return;
+                }
+                DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                modelo.removeRow(relacaoPedidos.getSelectedRow());
+            }
+        });
         
-        
-    
+        btnSalvarPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(relacaoPedidos.getSelectedRow() != 0 ){
+                DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                int linha = relacaoPedidos.getSelectedRow();
+                modelo.setValueAt(cmbBoxDescricaoBebida.getSelectedItem(), linha, 3);
+                modelo.setValueAt(cmbBoxDescricaoComida.getSelectedItem(), linha, 4);
+                modelo.setValueAt(cmbBoxstatus.getSelectedItem(), linha, 5);
+                cmbBoxDescricaoBebida.setSelectedIndex(0);
+                cmbBoxDescricaoComida.setSelectedIndex(0);
+                cmbBoxstatus.setSelectedIndex(0);
+                relacaoPedidos.clearSelection();
+                }
+            }
+        });
     
     
     
