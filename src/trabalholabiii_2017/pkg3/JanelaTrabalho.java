@@ -30,10 +30,15 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabriel_Nascimento
  */
 public class JanelaTrabalho extends JFrame{
-    private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"}); 
-    private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(new String[]{"Skol", "Bhama", "Proibida", "Bavaria"});
-    private JComboBox<String> cmbBoxDescricaoComida = new JComboBox<>(new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"});
-    private JComboBox<String> cmbBoxstatus = new JComboBox<>(new String[]{"Aberto", "Fechado"});
+    private String[] listaMesa = new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"};
+    private String[] listaBebida = new String[]{"Skol", "Bhama", "Proibida", "Bavaria"};
+    private String[] listaComida = new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"};
+    private String[] listaStatus = new String[]{"Aberto", "Fechado"};
+    
+    private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(listaMesa); 
+    private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(listaBebida);
+    private JComboBox<String> cmbBoxDescricaoComida = new JComboBox<>(listaComida);
+    private JComboBox<String> cmbBoxstatus = new JComboBox<>(listaStatus);
     
     private JButton btnAdicionarPedido = new JButton("Adicionar");
     private JButton btnRemoverPedido = new JButton("Remover");
