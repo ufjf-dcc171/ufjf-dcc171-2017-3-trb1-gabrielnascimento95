@@ -15,6 +15,7 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -29,15 +30,16 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabriel_Nascimento
  */
 public class JanelaTrabalho extends JFrame{
-    private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"});
+    private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"}); 
     private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(new String[]{"Skol", "Bhama", "Proibida", "Bavaria"});
     private JComboBox<String> cmbBoxDescricaoComida = new JComboBox<>(new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"});
     private JComboBox<String> cmbBoxstatus = new JComboBox<>(new String[]{"Aberto", "Fechado"});
     
     private JButton btnAdicionarPedido = new JButton("Adicionar");
     private JButton btnRemoverPedido = new JButton("Remover");
-    private JButton btnSalvarPedido = new JButton("Salvar");
+    private JButton btnAlterarPedido = new JButton("Alterar");
     
+    private int qntBebida = 1, qntComida = 1;
     
     private JTable relacaoPedidos;
     
@@ -49,26 +51,28 @@ public class JanelaTrabalho extends JFrame{
     public JanelaTrabalho() throws HeadlessException{
         super("Gerenciador de Pedidos");
         Object[][] dados = new Object[][]{
-            {cmbBoxIdMesa.getItemAt(0), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(0), cmbBoxDescricaoComida.getItemAt(2) , cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(1), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(1), cmbBoxDescricaoComida.getItemAt(0), cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(2), dataInicial, dataFinal, cmbBoxDescricaoBebida.getItemAt(2), cmbBoxDescricaoComida.getItemAt(1), cmbBoxstatus.getItemAt(1)},
+            /*{cmbBoxIdMesa.getItemAt(0), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(0), qntComida, cmbBoxDescricaoComida.getItemAt(2) , cmbBoxstatus.getItemAt(0)},
+            {cmbBoxIdMesa.getItemAt(1), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(1), qntComida, cmbBoxDescricaoComida.getItemAt(0), cmbBoxstatus.getItemAt(0)},
+            {cmbBoxIdMesa.getItemAt(2), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(2), qntComida, cmbBoxDescricaoComida.getItemAt(1), cmbBoxstatus.getItemAt(1)},
+            */
         };
         
-        Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento", "Bebidas", "Comida", "Status"};
+        Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento","Quantidade -->", "Bebidas", "Quantidade -->", "Comida", "Status"};
         relacaoPedidos = new JTable(new DefaultTableModel(dados, titulos));
         btnRemoverPedido.setEnabled(false);
-        btnSalvarPedido.setEnabled(false);
+        btnAlterarPedido.setEnabled(false);
         btnRemoverPedido.setBackground(Color.red);
         btnAdicionarPedido.setBackground(Color.green);
-        btnSalvarPedido.setBackground(Color.yellow);
+        btnAlterarPedido.setBackground(Color.yellow);
+        cmbBoxIdMesa.setName("Mesa");
         
         JPanel entradaDados = new JPanel();
-        entradaDados.setLayout(new GridLayout(2, 6));
+        entradaDados.setLayout(new GridLayout(2, 4));
         entradaDados.add(cmbBoxIdMesa);
         entradaDados.add(cmbBoxDescricaoBebida);
         entradaDados.add(cmbBoxDescricaoComida);
         entradaDados.add(cmbBoxstatus);
-        entradaDados.add(btnSalvarPedido);
+        entradaDados.add(btnAlterarPedido);
         entradaDados.add(btnAdicionarPedido);
         entradaDados.add(btnRemoverPedido);
         
@@ -83,17 +87,19 @@ public class JanelaTrabalho extends JFrame{
         public void valueChanged(ListSelectionEvent e) {
             if (relacaoPedidos.getSelectedRowCount() == 0) {
                 btnRemoverPedido.setEnabled(false);
-                btnSalvarPedido.setEnabled(false);
+                btnAlterarPedido.setEnabled(false);
                 btnAdicionarPedido.setEnabled(false);
             } else {
                 btnRemoverPedido.setEnabled(true);
-                btnSalvarPedido.setEnabled(true);
+                btnAlterarPedido.setEnabled(true);
                 DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
                 int linha = relacaoPedidos.getSelectedRow();
                 cmbBoxIdMesa.setSelectedItem((String) modelo.getValueAt(linha, 0));
-                cmbBoxDescricaoBebida.setSelectedItem((String) modelo.getValueAt(linha, 3));
-                cmbBoxDescricaoComida.setSelectedItem((String) modelo.getValueAt(linha, 4));
-                cmbBoxstatus.setSelectedItem((String) modelo.getValueAt(linha, 5));
+                qntBebida = (int) modelo.getValueAt(linha, 3);
+                cmbBoxDescricaoBebida.setSelectedItem((String) modelo.getValueAt(linha, 4));
+                qntComida = (int) modelo.getValueAt(linha, 5);
+                cmbBoxDescricaoComida.setSelectedItem((String) modelo.getValueAt(linha, 6));
+                cmbBoxstatus.setSelectedItem((String) modelo.getValueAt(linha, 7));
                 }
             }   
         });
@@ -102,14 +108,19 @@ public class JanelaTrabalho extends JFrame{
             @Override
             public void actionPerformed(ActionEvent e) {
                 DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                qntBebida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Bebida: "));
+                qntComida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Comida: "));
                 modelo.addRow(new Object[]{
                     cmbBoxIdMesa.getSelectedItem(),
                     dataInicial,
                     dataFinal,
+                    qntBebida,
                     cmbBoxDescricaoBebida.getSelectedItem(),
+                    qntComida,
                     cmbBoxDescricaoComida.getSelectedItem(),
                     cmbBoxstatus.getSelectedItem()
                 });
+                
                 cmbBoxIdMesa.setSelectedItem(0);
                 cmbBoxDescricaoBebida.setSelectedItem(0);
                 cmbBoxDescricaoComida.setSelectedItem(0);
@@ -120,7 +131,7 @@ public class JanelaTrabalho extends JFrame{
         btnRemoverPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(relacaoPedidos.getSelectedRow() == 0){
+                if(relacaoPedidos.getSelectedRowCount()== 0){
                     return;
                 }
                 DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
@@ -128,20 +139,22 @@ public class JanelaTrabalho extends JFrame{
             }
         });
         
-        btnSalvarPedido.addActionListener(new ActionListener() {
+        btnAlterarPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(relacaoPedidos.getSelectedRow() != 0 ){
-                DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
-                int linha = relacaoPedidos.getSelectedRow();
-                modelo.setValueAt(cmbBoxDescricaoBebida.getSelectedItem(), linha, 3);
-                modelo.setValueAt(cmbBoxDescricaoComida.getSelectedItem(), linha, 4);
-                modelo.setValueAt(cmbBoxstatus.getSelectedItem(), linha, 5);
-                cmbBoxDescricaoBebida.setSelectedIndex(0);
-                cmbBoxDescricaoComida.setSelectedIndex(0);
-                cmbBoxstatus.setSelectedIndex(0);
-                relacaoPedidos.clearSelection();
-                }
+                if(relacaoPedidos.getSelectedRowCount()!= 0){
+                    if(cmbBoxstatus.getSelectedItem() == "Aberto"){
+                        DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                        int linha = relacaoPedidos.getSelectedRow();
+                        modelo.setValueAt(cmbBoxDescricaoBebida.getSelectedItem(), linha, 4);
+                        modelo.setValueAt(cmbBoxDescricaoComida.getSelectedItem(), linha, 6);
+                        modelo.setValueAt(qntBebida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Bebida: ")), linha, 3);
+                        modelo.setValueAt(qntComida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Comida: ")), linha, 5);
+                        relacaoPedidos.clearSelection();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Pedido Fechado");
+                    }
+               }
             }
         });
     

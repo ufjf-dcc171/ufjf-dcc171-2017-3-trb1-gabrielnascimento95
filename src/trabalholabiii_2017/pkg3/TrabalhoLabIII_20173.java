@@ -5,6 +5,7 @@
  */
 package trabalholabiii_2017.pkg3;
 
+import java.awt.Window;
 import javax.swing.JFrame;
 
 /**
@@ -18,7 +19,7 @@ public class TrabalhoLabIII_20173 {
      */
     public static void main(String[] args) {
         JanelaTrabalho janela = new JanelaTrabalho();
-        janela.setSize(1200,600);
+        janela.setSize(1368, 600);
         janela.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         janela.setLocationRelativeTo(null);
         janela.setVisible(true);
