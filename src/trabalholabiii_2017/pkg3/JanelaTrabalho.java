@@ -211,7 +211,15 @@ public class JanelaTrabalho extends JFrame{
         btnRelatorioPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
+                int linha = relacaoPedidos.getSelectedRow();
+                String auxMesa =  (String) modelo.getValueAt(linha, 0);
+                int qntAuxBebida = (int) modelo.getValueAt(linha, 3);
+                String auxDescricaoBebida= (String) modelo.getValueAt(linha, 4);
+                int qntAuxComida = (int) modelo.getValueAt(linha, 5);
+                String auxDescricaoComida = (String) modelo.getValueAt(linha, 6);
                 
+                JOptionPane.showMessageDialog(null, auxMesa + "\n\n" + qntAuxBebida + " " + auxDescricaoBebida + "\n\n" + qntAuxComida + " " + auxDescricaoComida);
             }
         });
         
