@@ -16,6 +16,7 @@ import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -43,11 +44,18 @@ public class JanelaTrabalho extends JFrame{
     private JComboBox<String> cmbBoxDescricaoComida = new JComboBox<>(listaComida);
     private JComboBox<String> cmbBoxstatus = new JComboBox<>(listaStatus);
     
+    private JLabel idMesa = new JLabel("Mesa");
+    private JLabel idBebida = new JLabel("Bebidas");
+    private JLabel idComida = new JLabel("Comida");
+    
     private JButton btnAdicionarPedido = new JButton("Adicionar");
     private JButton btnRemoverPedido = new JButton("Remover");
     private JButton btnAlterarPedido = new JButton("Alterar");
     private JButton btnFecharPedido = new JButton("Fechar Mesa");
     private JButton btnRelatorioPedido = new JButton("Gerar Relatório p/ Cliente");
+    private JButton btnAddBebida = new JButton("Adicionar Bebida ao Cardápio");
+    private JButton btnAddComida = new JButton("Adicionar Comidas ao Cardápio");
+    private JButton btnCoringa = new JButton("");
     
     private int qntBebida = 1, qntComida = 1;
     
@@ -67,14 +75,23 @@ public class JanelaTrabalho extends JFrame{
         btnAlterarPedido.setEnabled(false);
         btnFecharPedido.setEnabled(false);
         btnRelatorioPedido.setEnabled(false);
+        btnRelatorioPedido.setEnabled(false);
+        btnCoringa.setEnabled(false);
         btnRemoverPedido.setBackground(Color.red);
         btnAdicionarPedido.setBackground(Color.green);
         btnAlterarPedido.setBackground(Color.yellow);
         btnFecharPedido.setBackground(Color.lightGray);
         btnRelatorioPedido.setBackground(Color.cyan);
+      
         
         JPanel entradaDados = new JPanel();
-        entradaDados.setLayout(new GridLayout(3, 4));
+        entradaDados.setLayout(new GridLayout(5, 3));
+        entradaDados.add(btnAddBebida);
+        entradaDados.add(btnAddComida);
+        entradaDados.add(btnCoringa);
+        entradaDados.add(idMesa);
+        entradaDados.add(idBebida);
+        entradaDados.add(idComida);
         entradaDados.add(cmbBoxIdMesa);
         entradaDados.add(cmbBoxDescricaoBebida);
         entradaDados.add(cmbBoxDescricaoComida);
@@ -83,6 +100,7 @@ public class JanelaTrabalho extends JFrame{
         entradaDados.add(btnRemoverPedido);
         entradaDados.add(btnFecharPedido);
         entradaDados.add(btnRelatorioPedido);
+        
         
         
         add(entradaDados, BorderLayout.NORTH); 
@@ -190,12 +208,30 @@ public class JanelaTrabalho extends JFrame{
             }
         });
     
-    
-    
+        btnRelatorioPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                
+            }
+        });
+        
+        btnAddBebida.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String novaBebida = new String();
+                novaBebida = JOptionPane.showInputDialog("Nova Bebida: ");
+                cmbBoxDescricaoBebida.addItem(novaBebida);
+            }
+        });
+        
+        btnAddComida.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String novaComida = new String();
+                novaComida = JOptionPane.showInputDialog("Nova Comida: ");
+                cmbBoxDescricaoComida.addItem(novaComida);
+            }
+        });
     
     }
-
-    
-    
-    
 }
