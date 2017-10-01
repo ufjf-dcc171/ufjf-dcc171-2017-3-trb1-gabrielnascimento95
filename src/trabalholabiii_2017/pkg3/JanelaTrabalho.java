@@ -60,13 +60,7 @@ public class JanelaTrabalho extends JFrame{
 
     public JanelaTrabalho() throws HeadlessException{
         super("Gerenciador de Pedidos");
-        Object[][] dados = new Object[][]{
-            /*{cmbBoxIdMesa.getItemAt(0), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(0), qntComida, cmbBoxDescricaoComida.getItemAt(2) , cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(1), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(1), qntComida, cmbBoxDescricaoComida.getItemAt(0), cmbBoxstatus.getItemAt(0)},
-            {cmbBoxIdMesa.getItemAt(2), dataInicial, dataFinal, qntBebida, cmbBoxDescricaoBebida.getItemAt(2), qntComida, cmbBoxDescricaoComida.getItemAt(1), cmbBoxstatus.getItemAt(1)},
-            */
-        };
-        
+        Object[][] dados = new Object[][]{};
         Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento","Quantidade -->", "Bebidas", "Quantidade -->", "Comida", "Status"};
         relacaoPedidos = new JTable(new DefaultTableModel(dados, titulos));
         btnRemoverPedido.setEnabled(false);
