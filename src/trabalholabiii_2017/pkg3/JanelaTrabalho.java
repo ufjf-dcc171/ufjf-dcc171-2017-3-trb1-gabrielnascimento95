@@ -11,6 +11,7 @@ import java.awt.GridLayout;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Date;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,10 +31,12 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabriel_Nascimento
  */
 public class JanelaTrabalho extends JFrame{
-    private String[] listaMesa = new String[]{"1", "2", "3","4", "5", "6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"};
+    private String[] listaMesa = new String[]{"Mesa 1", "Mesa 2", "Mesa 3","Mesa 4", "Mesa 5", "Mesa 6","Mesa 7", "Mesa 8", "Mesa 9","Mesa 10", "Mesa 11", "Mesa 12","Mesa 13", "Mesa 14", "Mesa 15","Mesa 16", "Mesa 17", "Mesa 18"};
     private String[] listaBebida = new String[]{"Skol", "Bhama", "Proibida", "Bavaria"};
     private String[] listaComida = new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"};
     private String[] listaStatus = new String[]{"Aberto", "Fechado"};
+    
+    private ArrayList<String> listaPedido = new ArrayList<>();
     
     private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(listaMesa); 
     private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(listaBebida);
@@ -43,15 +46,17 @@ public class JanelaTrabalho extends JFrame{
     private JButton btnAdicionarPedido = new JButton("Adicionar");
     private JButton btnRemoverPedido = new JButton("Remover");
     private JButton btnAlterarPedido = new JButton("Alterar");
+    private JButton btnFecharPedido = new JButton("Fechar Mesa");
+    private JButton btnRelatorioPedido = new JButton("Gerar Relatório p/ Cliente");
     
     private int qntBebida = 1, qntComida = 1;
     
     private JTable relacaoPedidos;
     
     private Long horarioInicial = new Long(System.currentTimeMillis());
-    private Long horarioFinal = new Long(System.currentTimeMillis() + 20000000);
+    private Long horarioFinal;
     private Date dataInicial = new Date(horarioInicial);
-    private Date dataFinal = new Date(horarioFinal);
+    private Date dataFinal;
 
     public JanelaTrabalho() throws HeadlessException{
         super("Gerenciador de Pedidos");
@@ -66,20 +71,24 @@ public class JanelaTrabalho extends JFrame{
         relacaoPedidos = new JTable(new DefaultTableModel(dados, titulos));
         btnRemoverPedido.setEnabled(false);
         btnAlterarPedido.setEnabled(false);
+        btnFecharPedido.setEnabled(false);
+        btnRelatorioPedido.setEnabled(false);
         btnRemoverPedido.setBackground(Color.red);
         btnAdicionarPedido.setBackground(Color.green);
         btnAlterarPedido.setBackground(Color.yellow);
-        cmbBoxIdMesa.setName("Mesa");
+        btnFecharPedido.setBackground(Color.lightGray);
+        btnRelatorioPedido.setBackground(Color.cyan);
         
         JPanel entradaDados = new JPanel();
-        entradaDados.setLayout(new GridLayout(2, 4));
+        entradaDados.setLayout(new GridLayout(3, 4));
         entradaDados.add(cmbBoxIdMesa);
         entradaDados.add(cmbBoxDescricaoBebida);
         entradaDados.add(cmbBoxDescricaoComida);
-        entradaDados.add(cmbBoxstatus);
         entradaDados.add(btnAlterarPedido);
         entradaDados.add(btnAdicionarPedido);
         entradaDados.add(btnRemoverPedido);
+        entradaDados.add(btnFecharPedido);
+        entradaDados.add(btnRelatorioPedido);
         
         
         add(entradaDados, BorderLayout.NORTH); 
@@ -94,9 +103,13 @@ public class JanelaTrabalho extends JFrame{
                 btnRemoverPedido.setEnabled(false);
                 btnAlterarPedido.setEnabled(false);
                 btnAdicionarPedido.setEnabled(false);
+                btnFecharPedido.setEnabled(false);
+                btnRelatorioPedido.setEnabled(false);
             } else {
                 btnRemoverPedido.setEnabled(true);
                 btnAlterarPedido.setEnabled(true);
+                btnFecharPedido.setEnabled(true);
+                btnRelatorioPedido.setEnabled(true);
                 DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
                 int linha = relacaoPedidos.getSelectedRow();
                 cmbBoxIdMesa.setSelectedItem((String) modelo.getValueAt(linha, 0));
@@ -115,15 +128,16 @@ public class JanelaTrabalho extends JFrame{
                 DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
                 qntBebida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Bebida: "));
                 qntComida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Comida: "));
+           
                 modelo.addRow(new Object[]{
                     cmbBoxIdMesa.getSelectedItem(),
                     dataInicial,
-                    dataFinal,
+                    " ",
                     qntBebida,
                     cmbBoxDescricaoBebida.getSelectedItem(),
                     qntComida,
                     cmbBoxDescricaoComida.getSelectedItem(),
-                    cmbBoxstatus.getSelectedItem()
+                    cmbBoxstatus.getItemAt(0)
                 });
                 
                 cmbBoxIdMesa.setSelectedItem(0);
@@ -163,7 +177,24 @@ public class JanelaTrabalho extends JFrame{
             }
         });
     
-    
+        btnFecharPedido.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(relacaoPedidos.getSelectedRowCount()!= 0){
+                    if(cmbBoxstatus.getSelectedItem() == "Aberto"){
+                        DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
+                        int linha = relacaoPedidos.getSelectedRow();
+                        horarioFinal = new Long(System.currentTimeMillis());
+                        dataFinal = new Date(horarioFinal);
+                        modelo.setValueAt(dataFinal, linha, 2);
+                        modelo.setValueAt(cmbBoxstatus.getItemAt(1), linha, 7); 
+                        relacaoPedidos.clearSelection();
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Pedido já está fechado.");
+                    }
+               }
+            }
+        });
     
     
     
