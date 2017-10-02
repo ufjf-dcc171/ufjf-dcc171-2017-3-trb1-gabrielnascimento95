@@ -32,12 +32,12 @@ import javax.swing.table.DefaultTableModel;
  * @author Gabriel_Nascimento
  */
 public class JanelaTrabalho extends JFrame{
-    private String[] listaMesa = new String[]{"Mesa 1", "Mesa 2", "Mesa 3","Mesa 4", "Mesa 5", "Mesa 6","Mesa 7", "Mesa 8", "Mesa 9","Mesa 10", "Mesa 11", "Mesa 12","Mesa 13", "Mesa 14", "Mesa 15","Mesa 16", "Mesa 17", "Mesa 18"};
+    private String[] listaMesa = new String[]{"1", "2", "3","4", "5","6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"};
     private String[] listaBebida = new String[]{"Skol", "Bhama", "Proibida", "Bavaria"};
     private String[] listaComida = new String[]{"Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"};
     private String[] listaStatus = new String[]{"Aberto", "Fechado"};
     
-    private ArrayList<String> listaPedido = new ArrayList<>();
+    private ArrayList<Pedido> listaPedido = new ArrayList<>();
     
     private JComboBox<String> cmbBoxIdMesa = new JComboBox<>(listaMesa); 
     private JComboBox<String> cmbBoxDescricaoBebida = new JComboBox<>(listaBebida);
@@ -56,9 +56,7 @@ public class JanelaTrabalho extends JFrame{
     private JButton btnAddBebida = new JButton("Adicionar Bebida ao Cardápio");
     private JButton btnAddComida = new JButton("Adicionar Comidas ao Cardápio");
     private JButton btnCoringa = new JButton("");
-    
-    private int qntBebida = 1, qntComida = 1;
-    
+  
     private JTable relacaoPedidos;
     
     private Long horarioInicial = new Long(System.currentTimeMillis());
@@ -69,7 +67,7 @@ public class JanelaTrabalho extends JFrame{
     public JanelaTrabalho() throws HeadlessException{
         super("Gerenciador de Pedidos");
         Object[][] dados = new Object[][]{};
-        Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento","Quantidade -->", "Bebidas", "Quantidade -->", "Comida", "Status"};
+        Object[] titulos = new Object[]{"Mesa", "Horário de Abertura", "Horário de Fechamento", "Bebidas", "Comida", "Status"};
         relacaoPedidos = new JTable(new DefaultTableModel(dados, titulos));
         btnRemoverPedido.setEnabled(false);
         btnAlterarPedido.setEnabled(false);
@@ -125,11 +123,9 @@ public class JanelaTrabalho extends JFrame{
                 DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
                 int linha = relacaoPedidos.getSelectedRow();
                 cmbBoxIdMesa.setSelectedItem((String) modelo.getValueAt(linha, 0));
-                qntBebida = (int) modelo.getValueAt(linha, 3);
-                cmbBoxDescricaoBebida.setSelectedItem((String) modelo.getValueAt(linha, 4));
-                qntComida = (int) modelo.getValueAt(linha, 5);
-                cmbBoxDescricaoComida.setSelectedItem((String) modelo.getValueAt(linha, 6));
-                cmbBoxstatus.setSelectedItem((String) modelo.getValueAt(linha, 7));
+                cmbBoxDescricaoBebida.setSelectedItem((String) modelo.getValueAt(linha, 3));
+                cmbBoxDescricaoComida.setSelectedItem((String) modelo.getValueAt(linha, 4));
+                cmbBoxstatus.setSelectedItem((String) modelo.getValueAt(linha, 5));
                 }
             }   
         });
@@ -137,18 +133,20 @@ public class JanelaTrabalho extends JFrame{
         btnAdicionarPedido.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                int pos = Integer.parseInt((String)cmbBoxIdMesa.getSelectedItem());
+                Pedido aux = new Pedido(pos);
+                aux.adicionaBebida((String)cmbBoxDescricaoBebida.getSelectedItem());
+                aux.adicionaComida((String)cmbBoxDescricaoComida.getSelectedItem());
+
+                listaPedido.add(pos-1, aux);
                 DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
-                qntBebida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Bebida: "));
-                qntComida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Comida: "));
-           
+                
                 modelo.addRow(new Object[]{
                     cmbBoxIdMesa.getSelectedItem(),
                     dataInicial,
                     " ",
-                    qntBebida,
-                    cmbBoxDescricaoBebida.getSelectedItem(),
-                    qntComida,
-                    cmbBoxDescricaoComida.getSelectedItem(),
+                    listaPedido.get(pos-1).imprimeDescricaoBebida(),
+                    listaPedido.get(pos-1).imprimeDescricaoComida(),
                     cmbBoxstatus.getItemAt(0)
                 });
                 
@@ -177,10 +175,14 @@ public class JanelaTrabalho extends JFrame{
                     if(cmbBoxstatus.getSelectedItem() == "Aberto"){
                         DefaultTableModel modelo = (DefaultTableModel)relacaoPedidos.getModel();
                         int linha = relacaoPedidos.getSelectedRow();
+                        
+                        
+                        /*
                         modelo.setValueAt(cmbBoxDescricaoBebida.getSelectedItem(), linha, 4);
                         modelo.setValueAt(cmbBoxDescricaoComida.getSelectedItem(), linha, 6);
                         modelo.setValueAt(qntBebida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Bebida: ")), linha, 3);
                         modelo.setValueAt(qntComida = Integer.parseInt(JOptionPane.showInputDialog("Quantidade de Comida: ")), linha, 5);
+                        */
                         relacaoPedidos.clearSelection();
                     }else{
                         JOptionPane.showMessageDialog(null, "Pedido Fechado");
@@ -214,12 +216,14 @@ public class JanelaTrabalho extends JFrame{
                 DefaultTableModel modelo = (DefaultTableModel) relacaoPedidos.getModel();
                 int linha = relacaoPedidos.getSelectedRow();
                 String auxMesa =  (String) modelo.getValueAt(linha, 0);
+                
+                /*
                 int qntAuxBebida = (int) modelo.getValueAt(linha, 3);
                 String auxDescricaoBebida= (String) modelo.getValueAt(linha, 4);
                 int qntAuxComida = (int) modelo.getValueAt(linha, 5);
                 String auxDescricaoComida = (String) modelo.getValueAt(linha, 6);
-                
-                JOptionPane.showMessageDialog(null, auxMesa + "\n\n" + qntAuxBebida + " " + auxDescricaoBebida + "\n\n" + qntAuxComida + " " + auxDescricaoComida);
+                */
+                //JOptionPane.showMessageDialog(null, auxMesa + "\n\n" + qntAuxBebida + " " + auxDescricaoBebida + "\n\n" + qntAuxComida + " " + auxDescricaoComida);
             }
         });
         
