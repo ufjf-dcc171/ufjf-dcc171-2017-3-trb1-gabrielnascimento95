@@ -177,8 +177,8 @@ public class JanelaTrabalho extends JFrame{
                         listaPedido.get(pos-1).adicionaBebida((String)cmbBoxDescricaoBebida.getSelectedItem());
                         listaPedido.get(pos-1).adicionaComida((String)cmbBoxDescricaoComida.getSelectedItem());
                         
-                        modelo.setValueAt(listaPedido.get(pos-1).imprimeDescricaoBebida(), linha, 3);
-                        modelo.setValueAt(listaPedido.get(pos-1).imprimeDescricaoComida(), linha, 4);
+                        modelo.setValueAt((String)listaPedido.get(pos-1).imprimeDescricaoBebida(), linha, 3);
+                        modelo.setValueAt((String)listaPedido.get(pos-1).imprimeDescricaoComida(), linha, 4);
                         relacaoPedidos.clearSelection();
                     }else{
                         JOptionPane.showMessageDialog(null, "Pedido Fechado");
