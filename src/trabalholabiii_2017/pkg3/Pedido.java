@@ -53,17 +53,17 @@ public class Pedido {
     }
     
     public String imprimeDescricaoBebida(){
-        String aux = null;
+        String aux = "";
         for(int i=0; i < listaBebidas.size(); i++){
-            aux = listaBebidas.get(i) + ", ";
+            aux += listaBebidas.get(i) + ", ";
         }
         return aux;
     }
     
     public String imprimeDescricaoComida(){
-        String aux = null;
+        String aux = "";
         for(int i=0; i < listaComida.size(); i++){
-            aux = listaComida.get(i) + ", ";
+            aux += listaComida.get(i) + ", ";
         }
         return aux;
     }
