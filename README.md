@@ -1,9 +1,9 @@
-1)
+
 Nome: Gabriel dos Santos Nascimento 
 Matrícula: 201376133
 Curso: Sistemas de Informação
 
-2)
+
 Cenário
 
 O projeto descrito tem como contexto um sistema de gerenciamento de comandas para bar, ou seja, o sistema conta com um cardápio
@@ -19,12 +19,12 @@ cancelado pelo usuário.
 O programa permite ao operador gerar um relatório ao usuário de todo o consumo do local, funcionalidade promovida através de um
 JOptionPane que exibe uma caixa de texto na tela com os respectivos dados da comanda.
 
-3)
+
 Modelo de dados utlizados
 
 Disponível através do link: https://drive.google.com/drive/folders/0B3LEDVDRlngebV9GYlptU1dZS1U?usp=sharing
 
-4)
+
 Campos necessários para construção da tela
 
 A classe JanelaTrabalho.java extende a classe JFrame, sendo esta uma classe necessária para todo funcionamento do projeto. Para
@@ -32,13 +32,12 @@ manipulação dos botões foi utilizado objetos da classe JButton. Para manipula
 da classe JTable. Para ulização das listas de itens do cardápio foi utlizado JComboBox. E para gerir a organização dos botões,
 listas e títulos foi utlizado um JPanel.
 
-5)
 Pontos importantes do funcionamento da interface
 
-6)
+
 Pontos mais mais difíceis de implementar
 
-7)
+
 Melhorias futuras
 
 
