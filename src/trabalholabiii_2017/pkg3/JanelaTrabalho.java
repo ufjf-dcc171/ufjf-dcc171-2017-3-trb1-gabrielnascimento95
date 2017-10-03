@@ -33,8 +33,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class JanelaTrabalho extends JFrame{
     private String[] listaMesa = new String[]{"1", "2", "3","4", "5","6","7", "8", "9","10", "11", "12","13", "14", "15","16", "17", "18"};
-    private String[] listaBebida = new String[]{" ", "Skol", "Bhama", "Proibida", "Bavaria"};
-    private String[] listaComida = new String[]{" ", "Porção de Batata", "Porção de Torresmo", "Porção de Linguiça"};
+    private String[] listaBebida = new String[]{"", "Skol", "Bhama", "Proibida", "Bavaria", "Original", "Stela", "Devassa", "Itaipava", "Coca-cola", "Agua", "Suco de Laranja", "Suco de Limão", "Vodka", "Vinho"};
+    private String[] listaComida = new String[]{"", "Porção de Batata", "Porção de Torresmo", "Porção de Linguiça", "Filé", "Peixe", "Arroz", "Vinagrete", "Feijão Tropeiro", "Arroz à grega", "Angú"};
     private String[] listaStatus = new String[]{"Aberto", "Fechado"};
     
     private ArrayList<Pedido> listaPedido = new ArrayList<>();
@@ -214,7 +214,6 @@ public class JanelaTrabalho extends JFrame{
                 String auxMesa =  (String) modelo.getValueAt(linha, 0);
                 String auxDescricaoBebida= (String) modelo.getValueAt(linha, 3);
                 String auxDescricaoComida = (String) modelo.getValueAt(linha, 4);
-                
                 JOptionPane.showMessageDialog(null,"Mesa " + auxMesa + "\n\n" + auxDescricaoBebida + "\n\n" + auxDescricaoComida);
             }
         });
